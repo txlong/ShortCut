@@ -3,28 +3,24 @@ package com.iAnonymous.shortcut;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.Activity;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
 
-import com.iAnonymous.shortcut.adapter.ViewPagerAdapter;
+import com.iAnonymous.shortcut.adapter.AppsFragmentAdapter;
 import com.iAnonymous.shortcut.bean.AppInfo;
+import com.viewpagerindicator.CirclePageIndicator;
 
-public class TestShortcutActivity extends Activity {
+public class TestShortcutActivity extends FragmentActivity {
 
 	private ViewPager mViewPager;
 
 	/**
 	 * 适配器.
 	 */
-	private ViewPagerAdapter mViewPagerAdapter;
+	private AppsFragmentAdapter appsFragmentAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,8 +54,11 @@ public class TestShortcutActivity extends Activity {
 
 	private void setupViews() {
 		mViewPager = (ViewPager) findViewById(R.id.viewpager);
-		mViewPagerAdapter = new ViewPagerAdapter(this, getApplications());
-		mViewPager.setAdapter(mViewPagerAdapter);
-		mViewPager.setCurrentItem(0);
+		appsFragmentAdapter = new AppsFragmentAdapter(getSupportFragmentManager(), getApplications());
+		mViewPager.setAdapter(appsFragmentAdapter);
+
+        CirclePageIndicator indicator = (CirclePageIndicator)findViewById(R.id.indicator);
+        indicator.setViewPager(mViewPager);
+        indicator.setSnap(true);
 	}
 }
